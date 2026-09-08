@@ -1,7 +1,24 @@
 import userImg from "../assets/user.png";
 import flagImg from "../assets/report.png";
+import { useState } from "react";
 
-const PlayersCard = ({ player }) => {
+const PlayersCard = ({
+  player,
+  setAvailableBalance,
+  availableBalance,
+  setSelectedPlayer,
+  selectedPlayer,
+}) => {
+  const [isSelected, setIsSelected] = useState(false);
+  const handleBalance = (playerData) => {
+    if (availableBalance < playerData.price) {
+      alert("Your balance is low");
+      return;
+    }
+    setAvailableBalance(availableBalance - playerData.price);
+    setIsSelected(true);
+    setSelectedPlayer([...selectedPlayer, player]);
+  };
   const {
     battingStyle,
     bowlingStyle,
@@ -42,7 +59,13 @@ const PlayersCard = ({ player }) => {
         <p className="font-bold">
           Price: $ <span>{price}</span>
         </p>
-        <button className="btn btn-light">Choose Player</button>
+        <button
+          onClick={() => handleBalance(player)}
+          disabled={isSelected}
+          className="btn btn-light"
+        >
+          {isSelected ? "Selected" : "Choose Player"}
+        </button>
       </div>
     </div>
   );
