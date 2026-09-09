@@ -1,7 +1,15 @@
 import deleteIcon from "../assets/delete.png";
 
-const SelectedPlayer = ({ selectedPlayer }) => {
-  console.log(selectedPlayer);
+const SelectedPlayer = ({
+  selectedPlayer,
+  removeItem,
+  setAvailableBalance,
+  availableBalance,
+}) => {
+  const handleRemoveItem = (player) => {
+    removeItem(player);
+    setAvailableBalance(availableBalance + player.price);
+  };
   return (
     <div className="container mx-auto mt-10">
       {selectedPlayer.map((player, index) => (
@@ -16,7 +24,7 @@ const SelectedPlayer = ({ selectedPlayer }) => {
               <p> {player.playerType} </p>
             </div>
           </div>
-          <button>
+          <button onClick={() => handleRemoveItem(player)}>
             <img src={deleteIcon} alt="" />
           </button>
         </div>
